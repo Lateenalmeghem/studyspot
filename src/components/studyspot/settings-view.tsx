@@ -13,10 +13,14 @@ import {
   Github,
   Check,
   MapPin,
+  LogOut,
+  UserCircle,
+  Mail,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { TiltCard } from "@/components/studyspot/tilt-card";
+import { useAuth } from "@/components/studyspot/auth-context";
 
 type RefreshInterval = 0 | 15 | 30 | 60;
 
@@ -28,6 +32,7 @@ export function SettingsView({
   onRefreshIntervalChange: (v: RefreshInterval) => void;
 }) {
   const { theme, setTheme } = useTheme();
+  const { user, signOut } = useAuth();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
 
@@ -46,6 +51,33 @@ export function SettingsView({
           Customize how StudySpot looks and refreshes.
         </p>
       </div>
+
+      {user && (
+        <section className="relative overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-3d">
+          <div className="orb -right-6 -top-6 h-24 w-24 bg-primary/30" />
+          <div className="relative flex items-center gap-3">
+            <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/60 text-lg font-bold text-primary-foreground shadow-3d">
+              {user.name.charAt(0).toUpperCase()}
+              <span className="pulse-ring absolute inset-0 rounded-2xl" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold">{user.name}</p>
+              <p className="flex items-center gap-1 truncate text-xs text-muted-foreground">
+                <Mail className="h-3 w-3" />
+                {user.email}
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={signOut}
+            className="shine-sweep mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-medium text-rose-600 transition-colors hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign out
+          </button>
+        </section>
+      )}
 
       <section className="rounded-2xl border border-border bg-card p-4 shadow-3d">
         <div className="flex items-center gap-2">

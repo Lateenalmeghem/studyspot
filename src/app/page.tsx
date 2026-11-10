@@ -8,6 +8,9 @@ import { HomeView } from "@/components/studyspot/home-view";
 import { MapView } from "@/components/studyspot/map-view";
 import { DetailView } from "@/components/studyspot/detail-view";
 import { SettingsView } from "@/components/studyspot/settings-view";
+import { AuthView } from "@/components/studyspot/auth-view";
+import { useAuth } from "@/components/studyspot/auth-context";
+import { CursorGlow, GrainOverlay } from "@/components/studyspot/effects";
 import type { StudySpaceLive, StudyType } from "@/lib/study-spaces";
 
 type TypeFilter = "all" | StudyType;
@@ -20,6 +23,8 @@ interface ApiResponse {
 }
 
 export default function Page() {
+  const { user, ready } = useAuth();
+
   const [view, setView] = React.useState<ViewKey>("home");
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
 
@@ -93,10 +98,21 @@ export default function Page() {
     setView(v);
   };
 
+  if (!ready || !user) {
+    return (
+      <>
+        <AuthView />
+        <GrainOverlay />
+      </>
+    );
+  }
+
   return (
-    <div className="mesh-bg flex h-[100dvh] flex-col">
+    <div className="mesh-bg relative flex h-[100dvh] flex-col">
+      <CursorGlow />
+      <GrainOverlay />
       <Header />
-      <main className="scroll-thin flex-1 overflow-y-auto">
+      <main className="scroll-thin relative flex-1 overflow-y-auto">
         <div className="mx-auto flex min-h-full w-full max-w-5xl flex-col px-4 pb-6 pt-4 sm:px-6 sm:pt-6">
           <div className="flex-1">
             {selected ? (
