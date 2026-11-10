@@ -234,7 +234,7 @@ export function AuthView() {
                           icon={User}
                           label="Full name"
                           type="text"
-                          placeholder="Ahmed Al-Saud"
+                          placeholder="Lateen almeghem"
                           value={name}
                           onChange={setName}
                           autoComplete="name"
