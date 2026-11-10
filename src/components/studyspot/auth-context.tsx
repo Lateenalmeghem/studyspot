@@ -31,7 +31,7 @@ const SESSION_KEY = "studyspot_session";
 
 const DEMO_USER: StoredUser = {
   id: "demo-user",
-  name: "Demo Student",
+  name: "Lateen almeghem",
   email: "demo@studyspot.app",
   password: "demo1234",
 };
